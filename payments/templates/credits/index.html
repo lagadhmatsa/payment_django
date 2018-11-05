@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/index.css" >
+    <style>
+    body {margin:0;}
+    table {margin: 130px;}
+    .tabletype{margin: 130px;}
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    li {
+        float: left;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 30px 16px;
+        text-decoration: none;
+        width: 260px;
+        font-size: x-large;
+        font-family: "Malgun Gothic";
+    }
+
+    li a:hover:not(.active) {
+        background-color: #111;
+    }
+
+    .active {
+        background-color: #ffb300;
+    }
+    </style>
+</head>
+<body>
+
+    <div class="splitleft">
+            <div class="centered">
+                <img src="/static/download.png" alt='Propic' width="0.005px" height="100px">
+                <div class="name">Marcel Newman</div>
+            </div>
+    </div>
+    <div class="splitright">
+    <div>
+        <ul>
+            <li><a href="/credits/statement">Home</a></li>
+            <li><a href="#news">Crowd Sourcing</a></li>
+            <li><a href="www.google.com">Contact</a></li>
+            <li><a class="active" href="/credits">Credits</a></li>
+        </ul>
+    </div>
+        <table>
+            {% if bal %}
+                {% for acc in bal %}
+                <tr>
+                     <td>
+                        Total credits
+                    </td>
+                    <td>
+                        {{ acc.balance }}
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <p class="tabletype">Account not found.</p>
+            {% endif %}
+            </table>
+        <form action="{% url 'credits.redeem' %}" method="post">
+            {% csrf_token %}
+            Enter amount to redeem : <br>
+            <input type="number" step="any" name="redeem_amount" id="redeem_amount">
+            <input type="submit" value="Redeem"><br><br><br>
+        </form>
+        <form action="{% url 'credits.verify' %}" method="post">
+             {% csrf_token %}
+            Enter amount to add into wallet: <br>
+            <input type="number" step="any" name="add_amount" id="add_amount">
+            <input type="submit" value="Add into wallet">
+        </form>
+    </div>
+</body>
+</html>
