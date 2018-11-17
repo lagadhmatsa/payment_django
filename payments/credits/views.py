@@ -45,12 +45,12 @@ def pending_redeem(request):
     code = get_random_string(length=6, allowed_chars='1234567890')
     if have_internet():
         temp = Pending_redeem.objects.create(userid=1, redeem_amount=redeem_amount,transaction_id=uuid.uuid4().hex[:12].upper(), code=int(code))
-        auth_token = "7f7afc0c7b5a8e3b39b82d374af486a4"
-        account_sid = "ACe24048a852b18d18ac49658450803864"
+        auth_token = "Twilio account auth token"
+        account_sid = "Twilio account SSID"
         client = Client(account_sid, auth_token)
         message = client.messages.create(
-             to="+917842149220",
-             from_="+18649900776",
+             to="Twilio registered mobile number",
+             from_="Twilio alloted mobile number",
              body="Use {} code for verification.Amount requested to redeem is {}".format(code, redeem_amount))
     else:
         return HttpResponse("Internet not available.Please check your connection" + '<html><head><script>history.pushState(null, null, location.href);window.onpopstate = function () {history.go(1);};</script><a href="/credits">Click here to go to home page</a></head></html>')
@@ -100,7 +100,7 @@ def pending_transactions(request):
         subject = 'Payment confirmation'
         message = ('Please use this key for confirmation {}'.format(key))
         email_from = settings.EMAIL_HOST_USER
-        recipient_list = ['lagadhkumar.m17@iiits.in',]
+        recipient_list = ['Recipient email',]
         send_mail( subject, message, email_from, recipient_list)
     else:
         return HttpResponse("Internet not available.Please check your connection" + '<html><head><script>history.pushState(null, null, location.href);window.onpopstate = function () {history.go(1);};</script><a href="/credits">Click here to go to home page</a></head></html>')
