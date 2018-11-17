@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <script>
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    </script>
+</head>
+<body>
+    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="4U2Y85F85JDWC">
+        <input type="image" src="https://www.sandbox.paypal.com/en_GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.sandbox.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+    </form>
+    Please check your inbox for confirmation email.
+    <form action="{% url 'credits.confirm' %}" method="post">
+        {% csrf_token %}
+        Enter the key<br>
+        <input name="pay_key" id="pay_key">
+        <input type="submit" value="Submit">
+        <a href="/credits/transaction_cancel">
+        <input type="button" value="Cancel">
+        </a>
+    </form>
+</body>
+</html>
