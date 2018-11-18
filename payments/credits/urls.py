@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     re_path('^$', views.index, name="credits.index"),
     path('statement/', views.statement, name='credits.statement'),
+    path('crowdsourcing/', views.crowdsourcing, name='credits.crowdsourcing'),
     path('pending_redeem/', views.pending_redeem, name="credits.pending_redeem"),
     path('pending_transactions/', views.pending_transactions, name="credits.pending_transactions"),
     path('verify_sms/', views.verify_sms, name="credits.verify_sms"),

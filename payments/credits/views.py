@@ -39,18 +39,21 @@ def statement(request):
     transaction_disp = {'trans': transaction}
     return render(request, 'credits/statement.html', context=transaction_disp)
 
+def crowdsourcing(request):
+    return render(request, 'credits/crowdsourcing.html')
 
 def pending_redeem(request):
     redeem_amount = request.POST['redeem_amount']
+    seed()
     code = get_random_string(length=6, allowed_chars='1234567890')
     if have_internet():
-        temp = Pending_redeem.objects.create(userid=1, redeem_amount=redeem_amount,transaction_id=uuid.uuid4().hex[:12].upper(), code=int(code))
-        auth_token = "Twilio account auth token"
-        account_sid = "Twilio account SSID"
+        Pending_redeem.objects.create(userid=1, redeem_amount=redeem_amount,transaction_id="RED"+uuid.uuid4().hex[:9].upper(), code=int(code))
+        auth_token = "7f7afc0c7b5a8e3b39b82d374af486a4"
+        account_sid = "ACe24048a852b18d18ac49658450803864"
         client = Client(account_sid, auth_token)
-        message = client.messages.create(
-             to="Twilio registered mobile number",
-             from_="Twilio alloted mobile number",
+        client.messages.create(
+             to="+917842149220",
+             from_="+18649900776",
              body="Use {} code for verification.Amount requested to redeem is {}".format(code, redeem_amount))
     else:
         return HttpResponse("Internet not available.Please check your connection" + '<html><head><script>history.pushState(null, null, location.href);window.onpopstate = function () {history.go(1);};</script><a href="/credits">Click here to go to home page</a></head></html>')
@@ -78,8 +81,8 @@ def verify_sms(request):
         if y1<0:
             return HttpResponse("Insufficient credits")
         else:
-            user_bal_update = AccountBalance.objects.filter(userid=1).update(balance=y1)
-            statement_update = Statement.objects.filter(userid=1).update(transaction_id_5=temp2.transaction_id_4, transaction_id_4=temp2.transaction_id_3, transaction_id_3=temp2.transaction_id_2, transaction_id_2=temp2.transaction_id_1, transaction_id_1=temp1.transaction_id, last5=z4, last4=z3, last3=z2, last2=z1, last1=redeem_amount, date5=temp2.date4, date4=temp2.date3, date3=temp2.date2, date2=temp2.date1, date1=datetime.now())
+            AccountBalance.objects.filter(userid=1).update(balance=y1)
+            Statement.objects.filter(userid=1).update(transaction_id_5=temp2.transaction_id_4, transaction_id_4=temp2.transaction_id_3, transaction_id_3=temp2.transaction_id_2, transaction_id_2=temp2.transaction_id_1, transaction_id_1=temp1.transaction_id, last5=z4, last4=z3, last3=z2, last2=z1, last1=redeem_amount, date5=temp2.date4, date4=temp2.date3, date3=temp2.date2, date2=temp2.date1, date1=datetime.now())
             temp1.delete()
             return HttpResponse(key_success_page)
     else:
@@ -96,11 +99,11 @@ def pending_transactions(request):
     add_amount = request.POST['add_amount']
     key = random_key()
     if have_internet():
-        temp = Pending_transactions.objects.create(u_id=1, pending_amount=add_amount, key=key)
+        Pending_transactions.objects.create(u_id=1, pending_amount=add_amount, key=key)
         subject = 'Payment confirmation'
         message = ('Please use this key for confirmation {}'.format(key))
         email_from = settings.EMAIL_HOST_USER
-        recipient_list = ['Recipient email',]
+        recipient_list = ['lagadhkumar.m17@iiits.in',]
         send_mail( subject, message, email_from, recipient_list)
     else:
         return HttpResponse("Internet not available.Please check your connection" + '<html><head><script>history.pushState(null, null, location.href);window.onpopstate = function () {history.go(1);};</script><a href="/credits">Click here to go to home page</a></head></html>')
@@ -122,8 +125,8 @@ def confirm(request):
     if pay_key == temp1.key:
         temp = AccountBalance.objects.get(userid=1)
         y1 = float(temp.balance) + float(add_amount)
-        user_bal_update = AccountBalance.objects.filter(userid=1).update(balance=y1)
-        statement_update = Statement.objects.filter(userid=1).update(transaction_id_5=temp2.transaction_id_4,transaction_id_4=temp2.transaction_id_3,transaction_id_3=temp2.transaction_id_2,transaction_id_2=temp2.transaction_id_1,transaction_id_1=temp1.transaction_id,last5=z4, last4=z3, last3=z2,last2=z1, last1=add_amount,date5=temp2.date4,date4=temp2.date3,date3=temp2.date2,date2=temp2.date1,date1=datetime.now())
+        AccountBalance.objects.filter(userid=1).update(balance=y1)
+        Statement.objects.filter(userid=1).update(transaction_id_5=temp2.transaction_id_4,transaction_id_4=temp2.transaction_id_3,transaction_id_3=temp2.transaction_id_2,transaction_id_2=temp2.transaction_id_1,transaction_id_1=temp1.transaction_id,last5=z4, last4=z3, last3=z2,last2=z1, last1=add_amount,date5=temp2.date4,date4=temp2.date3,date3=temp2.date2,date2=temp2.date1,date1=datetime.now())
         temp1.delete()
         return HttpResponse(key_success_page)
     else:

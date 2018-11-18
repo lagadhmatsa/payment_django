@@ -54,14 +54,14 @@
     <div class="splitleft">
             <div class="centered">
                 <img src="/static/download.png" alt='Propic' width="0.005px" height="100px">
-                <div class="name">Marcel Newman</div>
+                <div class="name">Lagadh</div>
             </div>
     </div>
     <div class="splitright">
     <div>
         <ul>
-            <li><a href="/credits/statement">Home</a></li>
-            <li><a href="#news">Crowd Sourcing</a></li>
+            <li><a href="/credits/statement">Transactions</a></li>
+            <li><a href="/credits/crowdsourcing">Crowd Sourcing</a></li>
             <li><a href="www.google.com">Contact</a></li>
             <li><a class="active" href="/credits">Credits</a></li>
         </ul>
@@ -90,7 +90,7 @@
         </form>
         <form action="{% url 'credits.pending_transactions' %}" method="post">
              {% csrf_token %}
-            Enter amount to add into wallet: <br>
+            Enter credits to add into wallet: <br>
             <input type="number" step="any" name="add_amount" id="add_amount">
 {#            <input type="email" name="email" placeholder="Enter your email here.." id="email" required>#}
             <input type="submit" value="Add into wallet">

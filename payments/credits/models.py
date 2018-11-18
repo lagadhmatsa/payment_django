@@ -35,7 +35,7 @@ class Statement(models.Model):
 
 def random_transaction_id():
     seed()
-    transaction_id = uuid.uuid4().hex[:12].upper()
+    transaction_id = "ADD" + uuid.uuid4().hex[:9].upper()
     return transaction_id
 
 
